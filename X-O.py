@@ -10,10 +10,18 @@ def is_valid_choice(row, col):  # функция проверяет, что ме
     return board[row][col] == ' '
 
 def make_move(player, row, col):  # функция, которая размещает крестик/нолик на доске. player — X или O.
-    if is_valid_choice(row, col):
-        board[row][col] = player
-    else:
-        raise Exception('Так нельзя')
+    try:
+        if is_valid_choice(row, col):
+            board[row][col] = player
+            return True
+        else:
+            print('Так нельзя')
+    except:
+        print('')
+        return False
+
+
+
 
 def has_won(player):  # функция, которая проверяет, что игрок player выйграл.
     for i in range(3):  # строки
@@ -34,9 +42,10 @@ while True:   # пока нет победителя.
     print("Player {} turn".format(player))   # показываем, чья очередь.
     row = int(input("Row: "))   # спрашиваем, куда поставить X или O.
     col = int(input("Col: "))
-    make_move(player, row, col)   # ставим X или O.
+    is_player_move = make_move(player, row, col)   # ставим X или O.
     draw_board()   # рисуем обновленное состояние доски.
-    if has_won(player):   # проверяем.
-        print("Player {} won!".format(player))   #  показываем, кто выиграл.
-        break   # прерываем основной цикл.
-    player = 'O' if player == 'X' else 'X'   # меняем игроков.
+    if is_player_move:
+        if has_won(player):   # проверяем.
+            print("Player {} won!".format(player))   #  показываем, кто выиграл.
+            break   # прерываем основной цикл.
+        player = 'O' if player == 'X' else 'X'   # меняем игроков.
